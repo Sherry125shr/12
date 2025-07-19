@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏账号交易平台</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        nav {
+            background-color: #34495e;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+        }
+        nav ul li a:hover {
+            background-color: #2c3e50;
+            border-radius: 3px;
+        }
+        .user-info {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        .account-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .account-card {
+            background-color: white;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .account-card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .account-card .price {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.2em;
+        }
+        .account-card .game {
+            color: #3498db;
+        }
+        .account-card .seller {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        .btn-buy {
+            background-color: #e74c3c;
+        }
+        .btn-buy:hover {
+            background-color: #c0392b;
+        }
+        .chat-box {
+            background-color: white;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .chat-messages {
+            height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .customer-service {
+            background-color: #d4edff;
+            align-self: flex-start;
+        }
+        .user {
+            background-color: #e1ffd4;
+            align-self: flex-end;
+            text-align: right;
+        }
+        .chat-input {
+            display: flex;
+        }
+        .chat-input input {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .chat-input button {
+            margin-left: 10px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>游戏账号交易平台</h1>
+            <p>安全、便捷的游戏账号交易服务</p>
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showSection('home')">首页</a></li>
+                <li><a href="#" onclick="showSection('buy')">购买账号</a></li>
+                <li><a href="#" onclick="showSection('sell')">出售账号</a></li>
+                <li><a href="#" onclick="showSection('support')">客服支持</a></li>
+            </ul>
+        </nav>
+        
+        <div class="user-info">
+            欢迎，<span id="username">游客</span> | 
+            <a href="#" onclick="login('buyer')">买家登录</a> | 
+            <a href="#" onclick="login('seller')">卖家登录</a> | 
+            <a href="#" onclick="login('admin')">平台客服</a> |
+            <a href="#" onclick="logout()">退出</a>
+        </div>
+        
+        <!-- 首页 -->
+        <section id="home-section">
+            <h2>欢迎来到游戏账号交易平台</h2>
+            <p>我们提供安全可靠的游戏账号交易服务，保障买卖双方的权益。</p>
+            <p>平台特色：</p>
+            <ul>
+                <li>多种热门游戏账号</li>
+                <li>安全支付保障</li>
+                <li>专业客服团队</li>
+                <li>快速交易流程</li>
+            </ul>
+        </section>
+        
+        <!-- 购买账号 -->
+        <section id="buy-section" class="hidden">
+            <h2>可购买的游戏账号</h2>
+            <div class="account-list">
+                <div class="account-card">
+                    <h3>王者荣耀账号</h3>
+                    <p class="game">游戏: 王者荣耀</p>
+                    <p>等级: 30</p>
+                    <p>英雄数量: 85</p>
+                    <p>皮肤数量: 120</p>
+                    <p class="price">价格: ¥500</p>
+                    <p class="seller">卖家: 游戏达人</p>
+                    <button class="btn btn-buy" onclick="buyAccount('王者荣耀账号')">立即购买</button>
+                </div>
+                
+                <div class="account-card">
+                    <h3>英雄联盟账号</h3>
+                    <p class="game">游戏: 英雄联盟</p>
+                    <p>等级: 200</p>
+                    <p>英雄数量: 全英雄</p>
+                    <p>皮肤数量: 50+</p>
+                    <p class="price">价格: ¥800</p>
+                    <p class="seller">卖家: LOL老玩家</p>
+                    <button class="btn btn-buy" onclick="buyAccount('英雄联盟账号')">立即购买</button>
+                </div>
+                
+                <div class="account-card">
+                    <h3>原神账号</h3>
+                    <p class="game">游戏: 原神</p>
+                    <p>冒险等级: 55</p>
+                    <p>5星角色: 15个</p>
+                    <p>5星武器: 10把</p>
+                    <p class="price">价格: ¥1200</p>
+                    <p class="seller">卖家: 提瓦特旅行者</p>
+                    <button class="btn btn-buy" onclick="buyAccount('原神账号')">立即购买</button>
+                </div>
+                
+                <div class="account-card">
+                    <h3>绝地求生账号</h3>
+                    <p class="game">游戏: PUBG</p>
+                    <p>等级: 70</p>
+                    <p>赛季: 最高钻石</p>
+                    <p>皮肤: 多款稀有</p>
+                    <p class="price">价格: ¥350</p>
+                    <p class="seller">卖家: 吃鸡高手</p>
+                    <button class="btn btn-buy" onclick="buyAccount('绝地求生账号')">立即购买</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 出售账号 -->
+        <section id="sell-section" class="hidden">
+            <h2>出售您的游戏账号</h2>
+            <div class="account-card">
+                <form id="sell-form">
+                    <label for="game-name">游戏名称:</label>
+                    <input type="text" id="game-name" required><br><br>
+                    
+                    <label for="account-name">账号名称:</label>
+                    <input type="text" id="account-name" required><br><br>
+                    
+                    <label for="account-level">账号等级:</label>
+                    <input type="number" id="account-level" required><br><br>
+                    
+                    <label for="characters">角色/英雄数量:</label>
+                    <input type="number" id="characters"><br><br>
+                    
+                    <label for="skins">皮肤数量:</label>
+                    <input type="number" id="skins"><br><br>
+                    
+                    <label for="description">账号描述:</label><br>
+                    <textarea id="description" rows="4" cols="50"></textarea><br><br>
+                    
+                    <label for="price">价格 (¥):</label>
+                    <input type="number" id="price" required><br><br>
+                    
+                    <button type="button" class="btn" onclick="submitAccount()">提交出售</button>
+                </form>
+            </div>
+            
+            <h3>您正在出售的账号</h3>
+            <div class="account-list" id="seller-accounts">
+                <!-- 卖家账号列表将在这里动态生成 -->
+            </div>
+        </section>
+        
+        <!-- 客服支持 -->
+        <section id="support-section" class="hidden">
+            <h2>客服支持</h2>
+            <div class="chat-box">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message customer-service">
+                        <strong>平台客服:</strong> 您好！请问有什么可以帮您的吗？
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="message-input" placeholder="输入您的问题...">
+                    <button class="btn" onclick="sendMessage()">发送</button>
+                </div>
+            </div>
+            
+            <div class="account-card" id="admin-panel" style="margin-top: 20px; display: none;">
+                <h3>客服管理面板</h3>
+                <div id="admin-messages">
+                    <!-- 客服看到的用户消息将在这里显示 -->
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="admin-reply" placeholder="输入回复...">
+                    <button class="btn" onclick="sendAdminReply()">回复</button>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>© 2023 游戏账号交易平台 | 联系我们: support@gameaccount.com</p>
+            <p>免责声明: 本平台仅提供交易服务，请遵守游戏厂商的用户协议</p>
+        </footer>
+    </div>
+
+    <script>
+        // 当前用户角色
+        let currentUser = null;
+        
+        // 显示不同的页面部分
+        function showSection(sectionId) {
+            document.getElementById('home-section').classList.add('hidden');
+            document.getElementById('buy-section').classList.add('hidden');
+            document.getElementById('sell-section').classList.add('hidden');
+            document.getElementById('support-section').classList.add('hidden');
+            
+            document.getElementById(sectionId + '-section').classList.remove('hidden');
+        }
+        
+        // 登录功能
+        function login(role) {
+            currentUser = role;
+            const usernameElement = document.getElementById('username');
+            
+            switch(role) {
+                case 'buyer':
+                    usernameElement.textContent = '买家用户';
+                    break;
+                case 'seller':
+                    usernameElement.textContent = '卖家用户';
+                    // 加载卖家账号
+                    loadSellerAccounts();
+                    break;
+                case 'admin':
+                    usernameElement.textContent = '平台客服';
+                    // 显示客服管理面板
+                    document.getElementById('admin-panel').style.display = 'block';
+                    break;
+                default:
+                    usernameElement.textContent = '游客';
+            }
+            
+            alert('已以' + usernameElement.textContent + '身份登录');
+        }
+        
+        // 退出登录
+        function logout() {
+            currentUser = null;
+            document.getElementById('username').textContent = '游客';
+            document.getElementById('admin-panel').style.display = 'none';
+            alert('已退出登录');
+        }
+        
+        // 购买账号
+        function buyAccount(accountName) {
+            if (!currentUser || currentUser !== 'buyer') {
+                alert('请先以买家身份登录');
+                return;
+            }
+            
+            if (confirm('确定要购买 ' + accountName + ' 吗？')) {
+                alert('购买成功！客服将很快联系您完成交易。');
+                
+                // 模拟添加到客服消息
+                const message = `用户 ${document.getElementById('username').textContent} 购买了 ${accountName}`;
+                addAdminMessage(message);
+            }
+        }
+        
+        // 提交出售账号
+        function submitAccount() {
+            if (!currentUser || currentUser !== 'seller') {
+                alert('请先以卖家身份登录');
+                return;
+            }
+            
+            const gameName = document.getElementById('game-name').value;
+            const accountName = document.getElementById('account-name').value;
+            const price = document.getElementById('price').value;
+            
+            if (!gameName || !accountName || !price) {
+                alert('请填写必填字段');
+                return;
+            }
+            
+            // 在实际应用中，这里会将数据发送到服务器
+            // 这里只是模拟
+            const account = {
+                game: gameName,
+                name: accountName,
+                price: price,
+                level: document.getElementById('account-level').value,
+                characters: document.getElementById('characters').value,
+                skins: document.getElementById('skins').value,
+                description: document.getElementById('description').value
+            };
+            
+            // 保存到本地存储
+            let accounts = JSON.parse(localStorage.getItem('sellerAccounts') || '[]');
+            accounts.push(account);
+            localStorage.setItem('sellerAccounts', JSON.stringify(accounts));
+            
+            alert('账号提交成功，等待审核！');
+            document.getElementById('sell-form').reset();
+            
+            // 刷新卖家账号列表
+            loadSellerAccounts();
+            
+            // 模拟通知客服
+            const message = `卖家 ${document.getElementById('username').textContent} 提交了新账号: ${gameName} - ${accountName} (¥${price})`;
+            addAdminMessage(message);
+        }
+        
+        // 加载卖家账号
+        function loadSellerAccounts() {
+            const accounts = JSON.parse(localStorage.getItem('sellerAccounts') || '[]');
+            const container = document.getElementById('seller-accounts');
+            container.innerHTML = '';
+            
+            if (accounts.length === 0) {
+                container.innerHTML = '<p>您还没有提交任何账号</p>';
+                return;
+            }
+            
+            accounts.forEach(account => {
+                const card = document.createElement('div');
+                card.className = 'account-card';
+                card.innerHTML = `
+                    <h3>${account.name}</h3>
+                    <p class="game">游戏: ${account.game}</p>
+                    ${account.level ? `<p>等级: ${account.level}</p>` : ''}
+                    ${account.characters ? `<p>角色/英雄数量: ${account.characters}</p>` : ''}
+                    ${account.skins ? `<p>皮肤数量: ${account.skins}</p>` : ''}
+                    ${account.description ? `<p>描述: ${account.description}</p>` : ''}
+                    <p class="price">价格: ¥${account.price}</p>
+                    <p>状态: 等待审核</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+        
+        // 发送消息给客服
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            if (!currentUser) {
+                alert('请先登录');
+                return;
+            }
+            
+            const chat = document.getElementById('chat-messages');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message user';
+            userMessage.innerHTML = `<strong>${document.getElementById('username').textContent}:</strong> ${message}`;
+            chat.appendChild(userMessage);
+            
+            // 模拟客服回复
+            setTimeout(() => {
+                const reply = document.createElement('div');
+                reply.className = 'message customer-service';
+                reply.innerHTML = `<strong>平台客服:</strong> 我们已收到您的消息，将尽快回复您。`;
+                chat.appendChild(reply);
+                chat.scrollTop = chat.scrollHeight;
+                
+                // 如果是客服登录，也显示在自己的面板中
+                if (currentUser === 'admin') {
+                    addAdminMessage(`用户 ${document.getElementById('username').textContent}: ${message}`);
+                }
+            }, 1000);
+            
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+            
+            // 添加到客服消息
+            addAdminMessage(`用户 ${document.getElementById('username').textContent}: ${message}`);
+        }
+        
+        // 添加消息到客服面板
+        function addAdminMessage(message) {
+            const adminMessages = document.getElementById('admin-messages');
+            const msgElement = document.createElement('div');
+            msgElement.textContent = message;
+            msgElement.style.marginBottom = '10px';
+            msgElement.style.padding = '5px';
+            msgElement.style.backgroundColor = '#f0f0f0';
+            msgElement.style.borderRadius = '3px';
+            adminMessages.appendChild(msgElement);
+            adminMessages.scrollTop = adminMessages.scrollHeight;
+        }
+        
+        // 客服回复
+        function sendAdminReply() {
+            const input = document.getElementById('admin-reply');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            if (currentUser !== 'admin') {
+                alert('只有客服可以回复');
+                return;
+            }
+            
+            // 在实际应用中，这里会将回复发送给特定用户
+            // 这里只是模拟
+            addAdminMessage(`客服回复: ${message}`);
+            
+            // 添加到公共聊天
+            const chat = document.getElementById('chat-messages');
+            const reply = document.createElement('div');
+            reply.className = 'message customer-service';
+            reply.innerHTML = `<strong>平台客服:</strong> ${message}`;
+            chat.appendChild(reply);
+            chat.scrollTop = chat.scrollHeight;
+            
+            input.value = '';
+        }
+        
+        // 初始化页面
+        window.onload = function() {
+            showSection('home');
+        };
+    </script>
+</body>
+</html>
